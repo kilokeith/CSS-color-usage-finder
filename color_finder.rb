@@ -42,22 +42,17 @@ f = File.new(ARGV[0], "r")
 #read file  line by line
 while line = f.gets
 	colors = Array.new
-	
+	#find hex
 	hex = match_hex(line)
-	if hex.size > 0
-		colors += hex
-	end
-	
+	colors += hex unless hex.size <= 0
+	#find rgb/hsl
 	rgba = match_rgba(line)
-	if rgba.size > 0
-		colors += rgba
-	end
-	
+	colors += rgba unless rgba.size <= 0
+	#find vars
 	sass_less = match_variable(line)
-	if sass_less.size > 0
-		colors += sass_less
-	end
+	colors += sass_less unless sass_less.size <= 0
 	
+	#make a new swatch for each
 	colors.each do |c|
 		color = Swatch.new(c.first.to_s)
 	end
